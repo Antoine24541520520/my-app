@@ -1,6 +1,21 @@
 import React from "react";
+import { useState } from "react";
 
-const Card = ({ carte, ajouterCarte, supprimerCarte, nbCartes }) => {
+const Card = ({ carte, supprimerCarte, ajouterCarte, nbOccurencesCarte }) => {
+
+
+  const [nbCartes, setCartesNb] = useState(nbOccurencesCarte(carte.id));
+
+  const majAjouterCarte = () => {    
+    ajouterCarte(carte.id);
+    setCartesNb(nbOccurencesCarte(carte.id))
+  };
+
+  const majSupprimerCarte = () => {
+    supprimerCarte(carte.id)
+    setCartesNb(nbOccurencesCarte(carte.id))
+  }
+
 
   const manaFinder = () => {
     const manaArray = [];
@@ -57,7 +72,7 @@ const Card = ({ carte, ajouterCarte, supprimerCarte, nbCartes }) => {
       onClick={
         (0 <= nbCartes && nbCartes < 4) ? 
         () => {
-          ajouterCarte(carte.id);
+          majAjouterCarte();
         } : 
         null
       }
@@ -70,7 +85,7 @@ const Card = ({ carte, ajouterCarte, supprimerCarte, nbCartes }) => {
       onClick={
         (0 < nbCartes) ? 
         () => {
-          supprimerCarte(carte.id);
+          majSupprimerCarte();
         } : 
         null
       }

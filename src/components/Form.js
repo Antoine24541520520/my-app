@@ -7,8 +7,8 @@ import Card from "./Card";
 
 const Form = () => {
   const [cartesData, setCartesData] = useState([]);
-  const [cartesDeck, setCartesDeck] = useState([]);
   const [search, setSearch] = useState("Starlight Invoker");
+  var cartesDeck;
 
   useEffect(() => {
     axios
@@ -18,31 +18,26 @@ const Form = () => {
     .then((res) => setCartesData(res.data.cards));
   }, [search]);
 
+  const ajouterCarte = (id) => {
+    let storedData = window.localStorage.cartes
+    ? window.localStorage.cartes.split(",")
+    : [];
+
+    storedData.push(id);
+    window.localStorage.cartes = storedData;
+
+    cartesDeck.push(id)
+  }
 
   const supprimerCarte = (id) => {
     let index = cartesDeck.findIndex((carteId) => carteId==id);
     cartesDeck.splice(index,1); 
-    setCartesDeck(cartesDeck)
 
     let storedData = window.localStorage.cartes.split(",");
     index = storedData.findIndex((carteId) => carteId==id);
     storedData.splice(index,1); 
     window.localStorage.cartes = storedData;
   }
-
-  const ajouterCarte = (id) => {
-    cartesDeck.push(id);
-    console.log("ok");
-    setCartesDeck(cartesDeck)
-    console.log(cartesDeck)
-    
-    let storedData = window.localStorage.cartes
-      ? window.localStorage.cartes.split(",")
-      : [];
-  
-    storedData.push(id);
-    window.localStorage.cartes = storedData;
-  };
 
   const nbOccurencesCarte = (id) => {
     let count = 0;
@@ -54,19 +49,15 @@ const Form = () => {
     return count;
   }
 
-  const initCarteLocalStorage = (id) => {
+  const initCartes = () => {
     let storedData = window.localStorage.cartes
-    ? window.localStorage.cartes.split(",")
-    : [];
-  
-    storedData.forEach(carteId => {
-      if(carteId == id){
-        count++;
-      }
-    });
+      ? window.localStorage.cartes.split(",")
+      : [];
 
-    return count;
-  }
+    cartesDeck = storedData;
+  };
+
+  initCartes();
 
   return (
     <div className="form-component">
@@ -84,7 +75,7 @@ const Form = () => {
       <div className="result">
         {
         cartesData.map((carte) => (
-            <Card ajouterCarte={ajouterCarte} supprimerCarte={supprimerCarte} nbCartes={nbOccurencesCarte(carte.id)} carte={carte} key={carte.id} />
+            <Card carte={carte} supprimerCarte={supprimerCarte} ajouterCarte={ajouterCarte} nbOccurencesCarte={nbOccurencesCarte} key={carte.id} />
           ))}
       </div>
     </div>
