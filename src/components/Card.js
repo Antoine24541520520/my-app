@@ -1,21 +1,33 @@
 import React from "react";
 import { useState } from "react";
 
-const Card = ({ carte, supprimerCarte, ajouterCarte, nbOccurencesCarte }) => {
+const Card = ({ carte, page }) => {
 
+  const [nombre, setNumber] = useState(carte.nombre);
 
-  const [nbCartes, setCartesNb] = useState(nbOccurencesCarte(carte.id));
+  const ajouterCarte = () => {
+    let storedData = window.localStorage.cartes
+    ? window.localStorage.cartes.split(",")
+    : [];
 
-  const majAjouterCarte = () => {    
-    ajouterCarte(carte.id);
-    setCartesNb(nbOccurencesCarte(carte.id))
-  };
+    storedData.push(carte.id);
+    window.localStorage.cartes = storedData;
 
-  const majSupprimerCarte = () => {
-    supprimerCarte(carte.id)
-    setCartesNb(nbOccurencesCarte(carte.id))
+    setNumber(prevNombre => prevNombre + 1)
   }
 
+  const supprimerCarte = () => {
+    let storedData = window.localStorage.cartes.split(",");
+    let index = storedData.findIndex((carteId) => carteId==carte.id);
+    storedData.splice(index,1); 
+    window.localStorage.cartes = storedData;
+
+    setNumber(prevNombre => prevNombre - 1)
+  }
+  
+  if(page === "MonDeck" && nombre == 0){
+    return;
+  }
 
   const manaFinder = () => {
     const manaArray = [];
@@ -64,15 +76,16 @@ const Card = ({ carte, supprimerCarte, ajouterCarte, nbOccurencesCarte }) => {
         <span><img className="mana_image" src={"./images/manas/b.gif"} alt=""/></span>
         <span><img className="mana_image" src={"./images/manas/w.gif"} alt=""/></span>
       </ul>
-      <h3>Dans le deck: <span>{nbCartes}</span></h3>
+
+      <h3>Dans le deck: <span>{nombre}</span></h3>
       <h3>Description</h3>
       <p>{carte.text ? carte.text : "No Description"}</p>
 
-      <div className={`btn ajouter ${(0 <= nbCartes && nbCartes < 4) ? ("enabled") : ("disabled")}`}
+      <div className={`btn ajouter ${(0 <= nombre && nombre < 4) ? ("enabled") : ("disabled")}`}
       onClick={
-        (0 <= nbCartes && nbCartes < 4) ? 
+        (0 <= nombre && nombre < 4) ? 
         () => {
-          majAjouterCarte();
+          ajouterCarte();
         } : 
         null
       }
@@ -81,11 +94,11 @@ const Card = ({ carte, supprimerCarte, ajouterCarte, nbOccurencesCarte }) => {
       </div>
 
 
-      <div className={`btn supprimer ${(0 < nbCartes) ? ("enabled") : ("disabled")}`}
+      <div className={`btn supprimer ${(0 < nombre) ? ("enabled") : ("disabled")}`}
       onClick={
-        (0 < nbCartes) ? 
+        (0 < nombre) ? 
         () => {
-          majSupprimerCarte();
+          supprimerCarte();
         } : 
         null
       }
