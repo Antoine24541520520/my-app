@@ -18,14 +18,14 @@ const Card = ({ carte, page }) => {
 
   const supprimerCarte = () => {
     let storedData = window.localStorage.cartes.split(",");
-    let index = storedData.findIndex((carteId) => carteId==carte.id);
+    let index = storedData.findIndex((carteId) => carteId===carte.id);
     storedData.splice(index,1); 
     window.localStorage.cartes = storedData;
 
     setNumber(prevNombre => prevNombre - 1)
   }
   
-  if(page === "MonDeck" && nombre == 0){
+  if(page === "MonDeck" && nombre === 0){
     return;
   }
 

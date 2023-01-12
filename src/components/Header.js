@@ -16,7 +16,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to="/Page2"
+              to="/MonDeck"
               className={(nav) => (nav.isActive ? "nav-active" : "")}
             >
               Mon Deck

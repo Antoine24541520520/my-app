@@ -1,7 +1,4 @@
-import axios from "axios";
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import Card from "./Card";
 // version npm 7.5.2
 

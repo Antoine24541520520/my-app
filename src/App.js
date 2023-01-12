@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/Page2" element={<MonDeck />} />
+        <Route path="/MonDeck" element={<MonDeck />} />
         <Route path="*" element={<Home/>} />
       </Routes>
     </BrowserRouter>
