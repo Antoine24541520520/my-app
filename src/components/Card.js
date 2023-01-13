@@ -32,7 +32,7 @@ const Card = ({ carte, page }) => {
           <img
             className="mana_image"
             src={`./images/manas/${unMana}.gif`}
-            alt=""
+            alt="Image mana"
           />
         </span>
       ));
