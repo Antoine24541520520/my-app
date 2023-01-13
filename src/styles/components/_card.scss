@@ -85,6 +85,7 @@
   }
   .btn {
     position:absolute;
+    user-select: none;
     cursor: default;
     bottom: 16px;
     transform: translateX(-50%);
