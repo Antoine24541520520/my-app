@@ -23,12 +23,14 @@ const Form = ({ page, cartes }) => {
   initCartes();
 
   return (
-      <div className="result">
-        {
-        cartes.map((carte) => (
-            <Card carte={carte} page={page} key={carte.id} />
-          ))}
-      </div>
+    <div className="result">
+    {cartes.length > 0 ?
+      cartes.map((carte, index) => (
+        <Card carte={carte} page={page} key={index} />
+      )) :
+      <h1>No card</h1>
+    }
+  </div>
   );
 };
 
